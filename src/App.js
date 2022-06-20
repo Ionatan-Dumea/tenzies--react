@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Die from "./components/Die";
-import { nanoid } from "nanoid";
-import Confetti from "react-confetti";
 import Timer from "./components/Timer";
 import BestTime from "./components/BestTime";
-
-/* useWindowSize CUSTOM HOOK */
-function useWindowSize() {
-  const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
-  useEffect(() => {
-    const handleResize = () => {
-      setSize([window.innerHeight, window.innerWidth]);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  return size;
-}
+import Confetti from "react-confetti";
+import { nanoid } from "nanoid";
+import useWindowSize from "./hooks/useWindowSize";
 
 export default function App() {
   const [gameOver, setGameOver] = useState(false);
@@ -96,7 +82,9 @@ export default function App() {
       holdDie={() => holdDie(die.id)}
     />
   ));
+
   const [height, width] = useWindowSize();
+
   return (
     <div>
       {gameOver && <Confetti height={height} width={width} />}
